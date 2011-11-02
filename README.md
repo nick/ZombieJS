@@ -8,3 +8,4 @@ Install JSDuck with this:
 
 Then look at the `buildDocs.sh` script to see how to generate the documentation from the command line
 
+See https://github.com/senchalabs/jsduck for more
