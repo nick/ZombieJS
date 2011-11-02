@@ -1,15 +1,15 @@
 /**
- * The Sun can {@link #rise} and {@link #set}.
+ * Sun!
  *
  *     @example
  *     var tpl = Ext.create('Template', "<div>{0}</div>");
- *     Sun.on({
- *         rise: function() { tpl.append(Ext.getBody(), ['Sun Rise']); },
+ *     Zjs.Sun.on({
+ *         rise: function(day) { tpl.append(Ext.getBody(), ['Sun Rise ' + day]); },
  *         set:  function() { tpl.append(Ext.getBody(), ['Sun Set']);  }
  *     });
- *     Sun.rise();
+ *     Zjs.Sun.rise();
  */
-Ext.define("Sun", {
+Ext.define("Zjs.Sun", {
 
     alternateClassName: ['Star'],
 
@@ -19,43 +19,36 @@ Ext.define("Sun", {
 
     singleton: true,
 
-    /**
-     * @cfg
-     * Milliseconds between the sun setting and rising
-     */
     millisecondsPerDay: 2000,
 
     constructor: function() {
 
+        this.date = Number(new Date());
+
         this.addEvents(
             /**
-             * @event
-             * Triggered when the sun rises.
-             * @param {Date} Date the sun rises;
+             * @event rise
+             * Fired when the sun rises
+             * @param {String} day  Day of the week
              */
             "rise",
 
             /**
-             * @event
-             * Triggered when the sun sets.
+             * @event set  Fires when the sun sets
              */
             "set"
         );
     },
 
-    /**
-     * Fires the {@link #event-rise rise} event and schedules a sun set
-     */
     rise: function() {
-        this.fireEvent('rise', this.day);
+        var date = new Date(this.date);
+        this.fireEvent('rise', Ext.Date.format(date, 'l'));
         Ext.defer(this.set, this.millisecondsPerDay, this);
     },
 
-    /**
-     * Fires the {@link #event-set set} event and schedules a sun rise
-     */
     set: function() {
         this.fireEvent('set');
+        this.date = this.date + (60 * 60 * 24 * 1000);
         Ext.defer(this.rise, this.millisecondsPerDay, this);
     }
 });

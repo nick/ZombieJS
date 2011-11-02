@@ -1,8 +1,7 @@
 /**
- * Wasteland class.
- *
+ * @private
  */
-Ext.define('Wasteland', {
+Ext.define('Zjs.Wasteland', {
 
     singleton: true,
 

@@ -1,0 +1,13 @@
+[
+    {
+        "title": "ZombieJS Examples",
+        "items": [
+            {
+                "text": "Zombie Animation",
+                "url": "../../../example/index.html",
+                "icon": "../../../../../assets/icon-lg.png",
+                "desc": "Zombie Example."
+            }
+        ]
+    }
+]

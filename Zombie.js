@@ -1,77 +1,73 @@
 /**
- * Hungry Zombie.
+ * Zombie!
  *
- * {@img images/zombie.png}
+ * {@img zombie.png}
  *
  *     @example
  *     var tpl = Ext.create('Template', "<div>{0}</div>");
  *
- *     var zombie = Ext.create('Zombie', {
+ *     var zombie = Ext.create('Zjs.Zombie', {
  *         bloodlustMultiplier: 0.5
  *     });
- *     zombie.on({
- *         eatPumpkin: function() { tpl.append(Ext.getBody(), ['Eating Pumpkin!']) },
- *         eatHead: function() { tpl.append(Ext.getBody(), ['Eating Head!']) }
- *     });
  *
- *     Sun.millisecondsPerDay = 500;
- *     Sun.addListener('rise', function() { zombie.chooseLunch() }, zombie);
- *     Sun.rise();
+ *     Zjs.Sun.millisecondsPerDay = 500;
+ *     Zjs.Sun.addListener('rise', function() {
+ *         var lunch = zombie.chooseLunch();
+ *         tpl.append(Ext.getBody(), ['Eating ' + lunch.food])
+ *     }, zombie);
+ *     Zjs.Sun.rise();
  */
-Ext.define("Zombie", {
+Ext.define("Zjs.Zombie", {
     extend: "Ext.Base",
 
     alias: 'widget.zombie',
 
-    mixins: {
-        observe: 'Ext.util.Observable'
-    },
-
     /**
-     * @property
-     * One property of Zombies is that they are rotting
+     * @property {Boolean} hungry  Zombies are always hungry
      */
-    rotting: true,
+    hungry: true,
 
     config: {
         /**
-         * @cfg (required)
-         * The bloodlustMultiplier increases or decreases the chance a Zombie
-         * will pick a human head to eat. Must be between 0 and 1.
+         * @cfg
+         * Propability the Zombie will choose a head
          */
         bloodlustMultiplier: 0.5
     },
 
     constructor: function(cfg) {
-
         this.initConfig(cfg);
-
-        this.addEvents(
-            /**
-             * @event
-             * Fired when the Zombie chooses to eat a pumpkin
-             */
-            'eatPumpkin',
-
-            /**
-             * @event
-             * Fired when the Zombie chooses to eat a **HUMAN HEAD**
-             */
-            'eatHead'
-        );
     },
 
     /**
-     * Causes the Zombie to decide between munching on a human head or a pumpkin
+     * Zombies can't walk fast
+     * @return {Boolean} Always false
+     */
+    walkFast: function() {
+        return false;
+    },
+
+    /**
+     * Choose lunch for zombie
+     * @return {Object}
+     * @return {String} return.food Type of food
+     * @return {Boolean} return.braaainsDesire Probability
      */
     chooseLunch: function() {
 
-        var braaaaaaaains = Math.round(Math.random() + this.getBloodlustMultiplier() - 0.5);
+        var braaains = Math.round(Math.random() + this.getBloodlustMultiplier() - 0.5);
 
-        if (braaaaaaaains) {
-            this.fireEvent('eatHead');
-        } else {
-            this.fireEvent('eatPumpkin');
+        return {
+            food: Boolean(braaains) ? 'Head' : 'Pumpkin',
+            braaainsDesire: braaains
         }
+    },
+
+    /**
+     * @alias Zjs.Zombie#chooseLunch
+     * @deprecated You should use {@link #chooseLunch}
+     */
+    chooseBreakfast: function() {
+        this.chooseLunch();
     }
 });
